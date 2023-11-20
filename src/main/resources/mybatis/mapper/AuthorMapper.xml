@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="az.kiraye.core.repository.UserRepository">
+
+
+    <resultMap id="AuthorResultMap" type="com.example.demo.entity.Author">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="roleId" column="role_id" />
+    </resultMap>
+
+    <select id="findById" parameterType="int" resultMap="UserResultMap">
+        SELECT * FROM authors WHERE id = #{id}
+    </select>
+
+    <select id="findByEmail" parameterType="com.example.demo.entity.Author" resultMap="AuthorResultMap">
+        select * from authors where mail = #{mail}
+    </select>
+
+    <select id="findAllUsers" resultMap="UserResultMap">
+        SELECT * FROM users
+    </select>
+
+    <insert id="insertUser" parameterType="az.kiraye.core.model.entity.User">
+        INSERT INTO users
+        (first_name, last_name, email, password, created_at, updated_at, is_active, role_id)
+        VALUES
+            (#{firstName}, #{lastName}, #{email}, #{password}, #{createdAt}, #{updatedAt}, #{isActive}, #{roleId})
+    </insert>
+
+    <update id="updateUser" parameterType="az.kiraye.core.model.entity.User">
+        UPDATE users
+        SET
+            first_name = #{firstName},
+            last_name = #{lastName},
+            email = #{email},
+            password = #{password},
+            created_at = #{createdAt},
+            updated_at = #{updatedAt},
+            is_active = #{isActive},
+            role_id = #{roleId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUserById" parameterType="int">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+</mapper>
